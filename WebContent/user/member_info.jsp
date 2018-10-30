@@ -1,47 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page session="true"%>
-<%@ page import="member.MemberInfo"%>
-<%
-    request.setCharacterEncoding("utf-8");
-%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<title>회원정보</title>
-</head>
-<body>
-    <jsp:useBean id="data" class="member.DataManager" scope="page" />
-    <%
-        String id = (String) session.getAttribute("ID");
-        String rPath = request.getContextPath();
-        if (id != null) {
-            MemberInfo member = data.getMember(id);
-            out.print("<form action=\""+rPath+"/user/update.jsp\" method=\"post\">");
-            out.print("<table>");
-            out.print("<tr><th colspan=2>회원정보</th></tr>");
-            out.print("<tr><td>아이디</td><td><input type=\"text\" name=\"id\" value=\"" + member.getId()
-                    + "\"></td></tr>");
-            out.print("<tr><td>비밀번호</td><td><input type=\"password\" name=\"pass\" value=\"" + member.getPass()
-                    + "\"></td></tr>");
-            out.print("<tr><td>이름</td><td><input type=\"text\" name=\"name\" value=\"" + member.getName()
-                    + "\"></td></tr>");
-            out.print("<tr><td>전화번호</td><td><input type=\"text\" name=\"phone\" value=\"" + member.getPhone()
-                    + "\"></td></tr>");
-            out.print("<tr><td>이메일</td><td><input type=\"text\" name=\"email\" value=\"" + member.getEmail()
-                    + "\"></tr>");
-            out.print("<tr><td>가입날짜</td><td>" + member.getReg_date() + "</td></tr>");
-            out.print("<tr><td solspan=2><input type=\"submit\" value=\"수정\"></td></tr>");
-            out.print("</table>");
-            out.print("</form>");
-        } else {
-            response.sendRedirect(rPath+"/index.jsp");
-        }
-    %>
-    <a href="<%=request.getContextPath()%>/user/logout.jsp">로그아웃</a>
-    <br />
-    <a href="<%=request.getContextPath()%>/user/delete.jsp?=<%=id%>">회원탈퇴</a>
-    <br />
-</body>
-</html>
+<%@page session="true"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<t:genericpage>
+    <jsp:attribute name="head">
+        <title>member_info</title>
+    </jsp:attribute>
+    <jsp:attribute name="header">
+        <!-- 페이지 머리말 -->
+    </jsp:attribute>
+    <jsp:attribute name="footer">
+        <!-- 페이지 꼬리말 -->
+    </jsp:attribute>
+    <jsp:body>
+        <h1>회원정보</h1>
+        <form action="${pageContext.request.contextPath}/user/update.do" method="post">
+            <input type="hidden" name="id" value="${sessionScope.member.id}"/>
+            <table>
+                <tr><th colspan=2>회원정보</th></tr>
+                <tr><td>아이디</td><td>${sessionScope.member.id}</td></tr>
+                <tr><td>비밀번호</td><td><input type="password" name="pass" value="${sessionScope.member.pass}"></td></tr>
+                <tr><td>이름</td><td><input type="text" name="name" value="${sessionScope.member.name}"></td></tr>
+                <tr><td>전화번호</td><td><input type="text" name="phone" value="${sessionScope.member.phone}"></td></tr>
+                <tr><td>이메일</td><td><input type="text" name="email" value="${sessionScope.member.email} "></tr>
+                <tr><td>가입날짜</td><td>${sessionScope.member.reg_date}</td></tr>
+                <tr><td colspan=2><input type="submit" value="수정"></td></tr>
+            </table>
+        </form>
+        <a href="${pageContext.request.contextPath}/user/delete.do?=${ID}">회원탈퇴</a>
+    </jsp:body>
+</t:genericpage>
