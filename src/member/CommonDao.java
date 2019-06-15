@@ -8,7 +8,7 @@ public class CommonDao {
     // String url = "jdbc:mysql://localhost:3306/my_site?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     String url = "jdbc:mysql://localhost:3306/my_site";
     String user = "jsp_user";
-    String pass = "qwer1234";
+    String pass = "비밀번호";
 
     public Connection openConnection() {
         try {
