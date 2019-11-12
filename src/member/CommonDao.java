@@ -4,17 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class CommonDao {
-    Connection con;
-    // String url = "jdbc:mysql://localhost:3306/my_site?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    String url = "jdbc:mysql://localhost:3306/my_site";
-    String user = "jsp_user";
-    String pass = "비밀번호";
+    private final String driverName="org.mariadb.jdbc.Driver";
+    private final String url = "jdbc:mysql://DB서버-IP주소:3306/my_site";
+    private final String db_id = "DB-아이디";
+    private final String db_pw = "DB-비밀번호";
+
+    protected Connection con = null;
 
     public Connection openConnection() {
         try {
-            //Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Class.forName("org.mariadb.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, pass);
+            Class.forName(driverName);
+            con = DriverManager.getConnection(url, db_id, db_pw);
         } catch (Exception e) {
             e.printStackTrace();
         }

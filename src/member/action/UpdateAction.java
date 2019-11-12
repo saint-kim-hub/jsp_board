@@ -23,15 +23,19 @@ public class UpdateAction implements CommandAction {
         HttpSession session = request.getSession();
         String id = (String) session.getAttribute("ID");
 
-        if (id != null) {
-            if (data.updateMember(member) != 0) {
-                text = "회원정보 수정에 성공하였습니다.";
-            } else {
-                text = "회원정보 수정에 실패하였습니다.";
-            }
+        if (data.isMember(member.getId(),member.getPass())) {
+        	if (id != null) {
+        	    if (data.updateMember(member) != 0) {
+        	        text = "회원정보 수정에 성공하였습니다.";
+        	    } else {
+        	        text = "회원정보 수정에 실패하였습니다.";
+        	    }
+        	} else {
+        	    response.sendRedirect(request.getContextPath()+"/home.do");
+        	    return null;
+        	}
         } else {
-            response.sendRedirect(request.getContextPath()+"/home.do");
-            return null;
+            text = "정보수정에 실패하였습니다. 다시 작성해 주세요.";
         }
 
         request.setAttribute("message", text);

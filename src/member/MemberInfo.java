@@ -8,7 +8,7 @@ public class MemberInfo {
     private String name;
     private String phone;
     private String email;
-    private Timestamp reg_date;
+    private String reg_date;
 
     public String getId() {
         return id;
@@ -40,10 +40,11 @@ public class MemberInfo {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Timestamp getReg_date() {
-        return reg_date;
-    }
-    public void setReg_date(Timestamp reg_date) {
-        this.reg_date = reg_date;
-    }
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
+    
 }

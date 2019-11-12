@@ -22,7 +22,7 @@
             <table>
                 <tr><th colspan=2>회원정보</th></tr>
                 <tr><td>아이디</td><td>${sessionScope.member.id}</td></tr>
-                <tr><td>비밀번호</td><td><input type="password" name="pass" value="${sessionScope.member.pass}"></td></tr>
+                <tr><td>비밀번호</td><td><input type="password" name="pass"> *가입시 비밀번호를 입력해 주세요.</td></tr>
                 <tr><td>이름</td><td><input type="text" name="name" value="${sessionScope.member.name}"></td></tr>
                 <tr><td>전화번호</td><td><input type="text" name="phone" value="${sessionScope.member.phone}"></td></tr>
                 <tr><td>이메일</td><td><input type="text" name="email" value="${sessionScope.member.email} "></tr>

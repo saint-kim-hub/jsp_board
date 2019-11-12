@@ -2,7 +2,7 @@ package member;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 
 public class MemberDao extends CommonDao {
     /*
@@ -10,18 +10,19 @@ public class MemberDao extends CommonDao {
      */
     public int insertMember(MemberInfo member) {
         PreparedStatement pstmt = null;
-        String query = "INSERT INTO member VALUES(?,?,?,?,?,?)";
+        String query = "INSERT INTO USER (user_id, user_pass, user_name, user_phone, user_email) VALUES(?, HEX(AES_ENCRYPT(?, SHA2(\"bluesky\",512))),?,?,?)";
         int res = 0;
         openConnection();
         try {
             pstmt = con.prepareStatement(query);
             pstmt.setString(1, member.getId());
+            // AES_ENCRYPT("abc", SHA2("enc_key",512))
             pstmt.setString(2, member.getPass());
             pstmt.setString(3, member.getName());
             pstmt.setString(4, member.getPhone());
             pstmt.setString(5, member.getEmail());
-            Timestamp ts = new Timestamp(System.currentTimeMillis());
-            pstmt.setTimestamp(6, ts);
+//            Timestamp ts = new Timestamp(System.currentTimeMillis());
+//            pstmt.setTimestamp(6, ts);
             res = pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,7 +37,7 @@ public class MemberDao extends CommonDao {
      */
     public int removeMember(String id) {
         PreparedStatement pstmt = null;
-        String query = "DELETE FROM member WHERE id=?";
+        String query = "DELETE FROM USER WHERE user_id=?";
         int res = 0;
         openConnection();
         try {
@@ -56,7 +57,7 @@ public class MemberDao extends CommonDao {
      */
     public int updateMember(MemberInfo member) {
         PreparedStatement pstmt = null;
-        String query = "UPDATE member SET pass=?, name=?, phone=?, email=? WHERE id=?";
+        String query = "UPDATE USER SET user_pass=?, user_name=?, user_phone=?, user_email=? WHERE user_id=?";
         int res = 0;
         openConnection();
         try {
@@ -74,13 +75,13 @@ public class MemberDao extends CommonDao {
         }
         return res;
     }
-    
+
     /*
      * 회원가입 여부 확인
      */
     public boolean isMember(String id, String pass) {
         PreparedStatement pstmt = null;
-        String query = "SELECT * FROM member WHERE id=? and pass=?";
+        String query = "SELECT * FROM USER WHERE user_id=? and user_pass=HEX(AES_ENCRYPT(?, SHA2(\"bluesky\",512)))";
         boolean res = false;
         openConnection();
         try {
@@ -104,19 +105,18 @@ public class MemberDao extends CommonDao {
     public MemberInfo getMember(String id) {
         PreparedStatement pstmt = null;
         MemberInfo member = new MemberInfo();
-        String query = "SELECT * FROM member WHERE id=?";
+        String query = "SELECT * FROM USER WHERE user_id=?";
         openConnection();
         try {
             pstmt = con.prepareStatement(query);
             pstmt.setString(1, id);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            member.setId(rs.getString("id"));
-            member.setPass(rs.getString("pass"));
-            member.setName(rs.getString("name"));
-            member.setPhone(rs.getString("phone"));
-            member.setEmail(rs.getString("email"));
-            member.setReg_date(rs.getTimestamp("reg_date"));
+            member.setId(rs.getString("user_id"));
+//            member.setPass(rs.getString("user_pass"));
+            member.setName(rs.getString("user_name"));
+            member.setPhone(rs.getString("user_phone"));
+            member.setEmail(rs.getString("user_email"));
             rs.close();
         } catch (Exception e) {
             e.printStackTrace();
