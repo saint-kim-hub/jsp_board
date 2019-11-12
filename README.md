@@ -1,0 +1,18 @@
+# jsp_board2
+ 
+템플릿과 부트스트랩을 적용한 버전입니다.
+
+## 테이블 생성 쿼리
+
+```
+CREATE TABLE if not EXISTS my_site.USER (
+	idx INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	user_id VARCHAR(15) NOT NULL,
+	user_pass BLOB NOT NULL,
+	user_phone VARCHAR(15) NULL,
+	user_name VARCHAR(15) NULL,
+	user_email VARCHAR(20) NOT NULL,
+	reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	mod_date TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE = INNODB;
+```
